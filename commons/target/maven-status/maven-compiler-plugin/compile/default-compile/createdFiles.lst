@@ -1,0 +1,4 @@
+com/chongyan/entity/User.class
+com/chongyan/entity/vo/UserBorrowDetail.class
+com/chongyan/entity/Borrow.class
+com/chongyan/entity/Book.class
