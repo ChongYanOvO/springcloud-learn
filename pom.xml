@@ -20,6 +20,8 @@
         <module>service-borrow</module>
         <module>commons</module>
         <module>service-eureka</module>
+        <module>service-hystrix-dashboard</module>
+        <module>service-gateway</module>
     </modules>
     <properties>
         <java.version>1.8</java.version>

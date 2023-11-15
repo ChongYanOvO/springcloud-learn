@@ -10,7 +10,17 @@ spring:
     username: root
     password: root
 
+feign:
+  circuitbreaker:
+    enabled: true
+
 eureka:
   client:
     service-url:
       defaultZone: http://eureka02:8801/eureka, http://eureka02:8802/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
