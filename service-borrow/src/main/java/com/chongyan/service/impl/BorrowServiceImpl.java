@@ -1,5 +1,7 @@
 package com.chongyan.service.impl;
 
+import com.chongyan.service.client.BookClient;
+import com.chongyan.service.client.UserClient;
 import com.chongyan.entity.Book;
 import com.chongyan.entity.Borrow;
 import com.chongyan.entity.User;
@@ -7,7 +9,6 @@ import com.chongyan.entity.vo.UserBorrowDetail;
 import com.chongyan.mapper.BorrowMapper;
 import com.chongyan.service.BorrowService;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -20,18 +21,19 @@ public class BorrowServiceImpl implements BorrowService {
     BorrowMapper mapper;
 
     @Resource
-    RestTemplate template;
+    UserClient userClient;
+
+    @Resource
+    BookClient bookClient;
 
     @Override
     public UserBorrowDetail getUserBorrowDetailByUid(int uid) {
         List<Borrow> borrow = mapper.getBorrowsByUid(uid);
 
-        //这里不用再写IP，直接写服务名称userservice
-        User user = template.getForObject("http://service-user/user/"+uid, User.class);
-        //这里不用再写IP，直接写服务名称bookservice
+        User user = userClient.getUserById(uid);
         List<Book> bookList = borrow
                 .stream()
-                .map(b -> template.getForObject("http://service-book/book/"+b.getBid(), Book.class))
+                .map(b -> bookClient.findBookById(b.getBid()))
                 .collect(Collectors.toList());
         return new UserBorrowDetail(user, bookList);
     }
